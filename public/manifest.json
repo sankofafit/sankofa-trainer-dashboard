@@ -1,12 +1,13 @@
 {
   "short_name": "SF Trainer",
-  "name": "Sankofa Fit Trainer Dashboard",
+  "name": "Sankofa Fit Trainer",
   "description": "Manage your training sessions, clients and earnings",
   "icons": [
     {
       "src": "favicon.png",
       "sizes": "64x64",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "logo192.png",
@@ -25,19 +26,31 @@
   "display": "standalone",
   "orientation": "portrait",
   "theme_color": "#1B2F6B",
-  "background_color": "#080C1C",
+  "background_color": "#1B2F6B",
   "scope": "/",
   "categories": ["fitness", "health"],
   "shortcuts": [
     {
       "name": "Bookings",
       "url": "/bookings",
-      "description": "View your bookings"
+      "description": "View your bookings",
+      "icons": [
+        {
+          "src": "favicon.png",
+          "sizes": "96x96"
+        }
+      ]
     },
     {
       "name": "Messages",
       "url": "/chat",
-      "description": "Chat with clients"
+      "description": "Chat with clients",
+      "icons": [
+        {
+          "src": "favicon.png",
+          "sizes": "96x96"
+        }
+      ]
     }
   ]
 }
