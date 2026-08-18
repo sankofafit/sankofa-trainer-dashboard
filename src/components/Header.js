@@ -1,5 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
+import {
+  installPWA,
+  isPWA,
+  setupInstallPrompt,
+} from '../utils/pwa';
 import {
   RiMenuLine,
   RiLogoutBoxLine,
@@ -12,6 +17,15 @@ import useTheme from '../hooks/useTheme';
 
 export default function Header({ trainer, session, onMenuToggle, isMobile }) {
   const { theme, toggleTheme } = useTheme();
+  const [canInstall, setCanInstall] = useState(false);
+
+  useEffect(() => {
+    if (isPWA()) return;
+
+    setupInstallPrompt(() => {
+      setCanInstall(true);
+    });
+  }, []);
 
   const handleLogout = async () => {
     if (window.confirm('Sign out of Trainer Dashboard?')) {
@@ -92,6 +106,58 @@ export default function Header({ trainer, session, onMenuToggle, isMobile }) {
 
         {!isMobile && (
           <div style={{ color: '#6B7B99', fontSize: 12 }}>{session?.user?.email}</div>
+        )}
+
+        {canInstall && (
+          <button
+            type="button"
+            onClick={async () => {
+              const installed = await installPWA();
+              if (installed) {
+                setCanInstall(false);
+              }
+            }}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8,
+              backgroundColor: '#F5C842',
+              border: 'none',
+              borderRadius: 50,
+              padding: '8px 16px',
+              cursor: 'pointer',
+              color: '#1B2F6B',
+              fontSize: 13,
+              fontWeight: 900,
+              whiteSpace: 'nowrap',
+              boxShadow: '0 4px 12px rgba(245,200,66,0.3)',
+              transition: 'all 0.2s',
+              animation: 'pulse 2s infinite',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-1px)';
+              e.currentTarget.style.boxShadow = '0 6px 16px rgba(245,200,66,0.4)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 4px 12px rgba(245,200,66,0.3)';
+            }}
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#1B2F6B"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M12 2v13M7 9l5 5 5-5" />
+              <path d="M3 17v2a2 2 0 002 2h14a2 2 0 002-2v-2" />
+            </svg>
+            Install App
+          </button>
         )}
 
         <button

@@ -195,7 +195,7 @@ export default function Sidebar({ trainer, isOpen, isMobile, onClose, unreadMess
                     justifyContent: 'center',
                     padding: '0 4px',
                     border: '2px solid #0D1B45',
-                    animation: 'pulse 2s infinite',
+                    animation: 'badgePulse 2s infinite',
                   }}
                 >
                   <span

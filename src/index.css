@@ -38,6 +38,16 @@ select {
 @keyframes pulse {
   0%,
   100% {
+    box-shadow: 0 4px 12px rgba(245, 200, 66, 0.3);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(245, 200, 66, 0.6);
+  }
+}
+
+@keyframes badgePulse {
+  0%,
+  100% {
     opacity: 1;
     transform: scale(1);
   }
