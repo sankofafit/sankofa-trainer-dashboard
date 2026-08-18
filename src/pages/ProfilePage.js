@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { supabase } from '../lib/supabase';
 import { useIsMobile } from '../hooks/useIsMobile';
+import { compressImage, formatFileSize } from '../utils/compressImage';
 
 const CITIES = [
   'Accra',
@@ -82,34 +83,47 @@ export default function ProfilePage({ trainer, setTrainer, userId }) {
       setUploadingPhoto(true);
       setError('');
 
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${userId}/profile_${Date.now()}.${fileExt}`;
+      console.log('Photo original:', formatFileSize(file.size));
 
-      const { error: uploadError } = await supabase.storage
-        .from('gym-images')
-        .upload(fileName, file, {
-          cacheControl: '3600',
+      const compressed = await compressImage(file, {
+        maxWidth: 600,
+        maxHeight: 600,
+        quality: 0.85,
+        maxSizeKB: 400,
+      });
+
+      console.log('Photo compressed:', formatFileSize(compressed.size));
+
+      const fileName = `trainer-${trainer.id}-${Date.now()}.jpg`;
+
+      const { data, error: uploadError } = await supabase.storage
+        .from('trainer-images')
+        .upload(fileName, compressed, {
+          contentType: 'image/jpeg',
           upsert: true,
         });
 
       if (uploadError) throw uploadError;
 
-      const {
-        data: { publicUrl },
-      } = supabase.storage.from('gym-images').getPublicUrl(fileName);
+      const { data: urlData } = supabase.storage
+        .from('trainer-images')
+        .getPublicUrl(data.path);
 
       const { error: updateError } = await supabase
         .from('trainers')
-        .update({ profile_image_url: publicUrl })
+        .update({ profile_image_url: urlData.publicUrl })
         .eq('id', trainer.id);
 
       if (updateError) throw updateError;
 
       setTrainer((prev) => ({
         ...prev,
-        profile_image_url: publicUrl,
+        profile_image_url: urlData.publicUrl,
       }));
+
+      alert('✅ Photo updated!');
     } catch (e) {
+      alert(`Upload failed: ${e.message}`);
       setError(e.message);
     } finally {
       setUploadingPhoto(false);

@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
+import { logActivity, LOG_ACTIONS } from '../utils/activityLogger';
 import { formatDate } from '../utils/formatters';
 import {
   RiCalendarEventLine,
@@ -122,6 +123,25 @@ export default function BookingsPage({ trainer }) {
         .eq('id', bookingId);
 
       if (error) throw error;
+
+      const {
+        data: { session: authSession },
+      } = await supabase.auth.getSession();
+
+      await logActivity({
+        actorId: authSession?.user?.id,
+        actorEmail: authSession?.user?.email,
+        actorName: trainer?.name,
+        actorType: 'trainer',
+        action: LOG_ACTIONS.BOOKING_COMPLETED,
+        category: 'booking',
+        description: 'Session marked as completed',
+        metadata: {
+          booking_id: bookingId,
+          trainer_id: trainer?.id,
+        },
+      });
+
       await loadBookings();
       alert('✅ Session marked as completed!');
     } catch (e) {
@@ -149,6 +169,25 @@ export default function BookingsPage({ trainer }) {
         .eq('id', bookingId);
 
       if (error) throw error;
+
+      const {
+        data: { session: authSession },
+      } = await supabase.auth.getSession();
+
+      await logActivity({
+        actorId: authSession?.user?.id,
+        actorEmail: authSession?.user?.email,
+        actorName: trainer?.name,
+        actorType: 'trainer',
+        action: LOG_ACTIONS.BOOKING_CANCELLED,
+        category: 'booking',
+        description: 'Session cancelled',
+        metadata: {
+          booking_id: bookingId,
+          reason,
+        },
+      });
+
       await loadBookings();
     } catch (e) {
       alert('Error: ' + e.message);

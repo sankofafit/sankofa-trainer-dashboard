@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { supabase } from './lib/supabase';
+import { logActivity, LOG_ACTIONS } from './utils/activityLogger';
 import Layout from './components/Layout';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
@@ -36,13 +37,15 @@ export default function App() {
       if (error || !data) {
         console.log('No trainer found for this user');
         setTrainer(null);
-        return;
+        return null;
       }
 
       setTrainer(data);
+      return data;
     } catch (e) {
       console.log('loadTrainer error:', e);
       setTrainer(null);
+      return null;
     } finally {
       setLoading(false);
     }
@@ -60,11 +63,23 @@ export default function App() {
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+    } = supabase.auth.onAuthStateChange(async (_event, nextSession) => {
       setSession(nextSession);
       if (nextSession?.user?.id) {
         setLoading(true);
-        loadTrainer(nextSession.user.id);
+        const trainerData = await loadTrainer(nextSession.user.id);
+        if (_event === 'SIGNED_IN' && trainerData) {
+          await logActivity({
+            actorId: nextSession.user.id,
+            actorEmail: nextSession.user.email,
+            actorName: trainerData.name,
+            actorType: 'trainer',
+            action: LOG_ACTIONS.AUTH_LOGIN,
+            category: 'auth',
+            description: 'Trainer logged in',
+            metadata: { trainer_id: trainerData.id },
+          });
+        }
       } else {
         setTrainer(null);
         setLoading(false);
