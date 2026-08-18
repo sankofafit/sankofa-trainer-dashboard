@@ -29,19 +29,19 @@ export default function App() {
         .eq('owner_id', userId)
         .single();
 
-      console.log('Trainer loaded in App.js:');
-      console.log('trainer.id:', data?.id);
-      console.log('trainer.owner_id:', data?.owner_id);
-      console.log('trainer.name:', data?.name);
+      console.log('Trainer for user:', data?.name);
+      console.log('Is approved:', data?.is_approved);
       console.log('Trainer error:', error);
 
-      if (error && error.code !== 'PGRST116') {
-        console.log('Real error loading trainer:', error);
+      if (error || !data) {
+        console.log('No trainer found for this user');
+        setTrainer(null);
+        return;
       }
 
-      setTrainer(data || null);
+      setTrainer(data);
     } catch (e) {
-      console.log('Load trainer error:', e);
+      console.log('loadTrainer error:', e);
       setTrainer(null);
     } finally {
       setLoading(false);

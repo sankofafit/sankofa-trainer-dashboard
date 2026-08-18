@@ -39,67 +39,91 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  const handleSubmit = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
     setSuccess('');
 
     try {
-      if (isSignUp) {
-        if (!name.trim()) {
-          throw new Error('Please enter your full name');
-        }
-
-        const { data, error: signUpError } = await supabase.auth.signUp({
-          email,
-          password,
-        });
-
-        if (signUpError) {
-          throw signUpError;
-        }
-
-        if (data.user) {
-          const { data: existing } = await supabase
-            .from('trainers')
-            .select('id')
-            .eq('owner_id', data.user.id)
-            .maybeSingle();
-
-          if (!existing) {
-            const { error: trainerError } = await supabase.from('trainers').insert({
-              owner_id: data.user.id,
-              name: name.trim(),
-              email,
-              phone,
-              city,
-              speciality,
-              is_approved: false,
-              is_active: true,
-            });
-
-            if (trainerError) {
-              console.log('Trainer create error:', trainerError);
-            }
-          }
-        }
-
-        setSuccess(
-          '✅ Account created! Check your email to verify. ' +
-            'Your profile will be reviewed by Sankofa Fit ' +
-            'admin within 24-48 hours.',
-        );
-      } else {
-        const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-        if (signInError) {
-          throw signInError;
-        }
+      if (!name.trim()) {
+        throw new Error('Please enter your full name');
       }
+
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email,
+        password,
+      });
+
+      if (authError) throw authError;
+
+      const userId = authData.user?.id;
+      if (!userId) {
+        throw new Error('Account creation failed');
+      }
+
+      console.log('New trainer ID:', userId);
+
+      const { data: trainerData, error: trainerError } = await supabase
+        .from('trainers')
+        .insert({
+          name: name.trim(),
+          owner_id: userId,
+          email,
+          phone,
+          city: city || 'Accra',
+          speciality: speciality || 'Personal Training',
+          is_approved: false,
+          is_active: true,
+          created_at: new Date().toISOString(),
+        })
+        .select()
+        .single();
+
+      if (trainerError) throw trainerError;
+
+      console.log('Trainer created:', trainerData);
+
+      setSuccess(
+        'Registration successful! Your profile is under review. Admin will approve it within 24 hours.',
+      );
+      alert(
+        '✅ Registration successful!\n\n' +
+          'Your profile is under review. ' +
+          'Admin will approve it within 24 hours.',
+      );
+    } catch (err) {
+      console.log('Register error:', err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    setSuccess('');
+
+    try {
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      if (signInError) throw signInError;
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    if (isSignUp) {
+      handleRegister(e);
+    } else {
+      handleLogin(e);
     }
   };
 
