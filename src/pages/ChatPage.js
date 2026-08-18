@@ -4,6 +4,7 @@ import React, {
 } from 'react';
 import { supabase } from '../lib/supabase';
 import { logActivity, LOG_ACTIONS } from '../utils/activityLogger';
+import { useIsMobile } from '../hooks/useIsMobile';
 import {
   RiSendPlaneFill,
   RiUserHeartLine,
@@ -12,9 +13,12 @@ import {
 } from 'react-icons/ri';
 
 export default function ChatPage({ trainer }) {
+  const isMobile = useIsMobile();
   const [clients, setClients] = useState([]);
   const [activeClient, setActiveClient] =
     useState(null);
+  const [showClientList, setShowClientList] =
+    useState(true);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [sending, setSending] = useState(false);
@@ -235,6 +239,14 @@ export default function ChatPage({ trainer }) {
     }
   };
 
+  const handleSelectClient = (client) => {
+    setActiveClient(client);
+    setMessages([]);
+    if (isMobile) {
+      setShowClientList(false);
+    }
+  };
+
   const handleSend = async () => {
     if (!newMessage.trim() || !activeClient ||
         sending) return;
@@ -305,20 +317,26 @@ export default function ChatPage({ trainer }) {
   return (
     <div style={{
       display: 'flex',
-      height: 'calc(100vh - 100px)',
+      height: 'calc(100vh - 64px)',
       gap: 0,
-      borderRadius: 20,
       overflow: 'hidden',
-      border: '1px solid var(--border)',
+      borderRadius: 0,
     }}>
       <div style={{
-        width: 300,
+        width: isMobile
+          ? showClientList ? '100%' : '0'
+          : '280px',
+        minWidth: isMobile
+          ? showClientList ? '100%' : '0'
+          : '280px',
         backgroundColor: '#0D1B45',
         display: 'flex',
         flexDirection: 'column',
         borderRight:
           '1px solid rgba(255,255,255,0.06)',
         flexShrink: 0,
+        transition: 'width 0.3s',
+        overflow: 'hidden',
       }}>
         <div style={{
           padding: '20px 16px 12px',
@@ -432,9 +450,7 @@ export default function ChatPage({ trainer }) {
               return (
                 <div
                   key={client.id}
-                  onClick={() => {
-                    setActiveClient(client);
-                  }}
+                  onClick={() => handleSelectClient(client)}
                   style={{
                     padding: '12px 16px',
                     cursor: 'pointer',
@@ -547,10 +563,13 @@ export default function ChatPage({ trainer }) {
 
       <div style={{
         flex: 1,
-        backgroundColor: 'var(--bg-main)',
-        display: 'flex',
+        backgroundColor: '#080C1C',
+        display: isMobile
+          ? showClientList ? 'none' : 'flex'
+          : 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
+        minWidth: 0,
       }}>
         {!activeClient ? (
           <div style={{
@@ -603,7 +622,32 @@ export default function ChatPage({ trainer }) {
               display: 'flex',
               alignItems: 'center',
               gap: 12,
+              flexShrink: 0,
             }}>
+              {isMobile && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowClientList(true);
+                    setActiveClient(null);
+                  }}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: '#8B5CF6',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    fontSize: 14,
+                    fontWeight: 700,
+                    marginRight: 8,
+                    padding: 0,
+                  }}
+                >
+                  ← Back
+                </button>
+              )}
               <div style={{
                 width: 40, height: 40,
                 borderRadius: 20,
@@ -667,6 +711,8 @@ export default function ChatPage({ trainer }) {
               display: 'flex',
               flexDirection: 'column',
               gap: 8,
+              WebkitOverflowScrolling: 'touch',
+              overscrollBehavior: 'contain',
             }}>
               {messages.length === 0 ? (
                 <div style={{
@@ -796,7 +842,10 @@ export default function ChatPage({ trainer }) {
               backgroundColor: '#0D1B45',
               display: 'flex',
               gap: 10,
-              alignItems: 'flex-end',
+              alignItems: 'center',
+              flexShrink: 0,
+              position: 'relative',
+              zIndex: 10,
             }}>
               <input
                 ref={inputRef}

@@ -5,7 +5,7 @@ import { logActivity, LOG_ACTIONS } from './utils/activityLogger';
 import {
   registerSW,
   requestNotificationPermission,
-  showNotification,
+  showTrainerNotification,
 } from './utils/pwa';
 import Layout from './components/Layout';
 import LoginPage from './pages/LoginPage';
@@ -111,18 +111,12 @@ export default function App() {
   }, [loadTrainer]);
 
   useEffect(() => {
-    if (trainer) {
-      requestNotificationPermission().then((granted) => {
-        console.log('Notification permission:', granted);
-      });
-    }
-  }, [trainer]);
-
-  useEffect(() => {
     if (!trainer?.id || !trainer?.owner_id) return;
 
+    requestNotificationPermission();
+
     const bookingSub = supabase
-      .channel(`notify_bookings_${trainer.id}`)
+      .channel(`notif_booking_${trainer.id}`)
       .on(
         'postgres_changes',
         {
@@ -132,27 +126,31 @@ export default function App() {
           filter: `trainer_id=eq.${trainer.id}`,
         },
         async (payload) => {
-          console.log('New booking!', payload);
-          const booking = payload.new;
+          const b = payload.new;
+          console.log('🎉 New booking:', b);
 
-          await showNotification('🎉 New Booking!', {
-            body: `New session booked: ${booking.session_type || 'Session'} on ${booking.session_date}`,
-            icon: '/favicon.png',
-            data: { url: '/bookings' },
-            tag: 'new-booking',
-            actions: [
-              {
-                action: 'view',
-                title: 'View Booking',
-              },
-            ],
+          let clientName = 'A client';
+          if (b.user_id) {
+            const { data: user } = await supabase
+              .from('users')
+              .select('full_name')
+              .eq('id', b.user_id)
+              .single();
+            clientName = user?.full_name || clientName;
+          }
+
+          await showTrainerNotification('new_booking', {
+            clientName,
+            sessionType: b.session_type,
+            date: b.session_date,
+            time: b.session_time,
           });
         },
       )
       .subscribe();
 
     const messageSub = supabase
-      .channel(`notify_messages_${trainer.owner_id}`)
+      .channel(`notif_msg_${trainer.owner_id}`)
       .on(
         'postgres_changes',
         {
@@ -162,23 +160,141 @@ export default function App() {
           filter: `receiver_id=eq.${trainer.owner_id}`,
         },
         async (payload) => {
-          console.log('New message!', payload);
           const msg = payload.new;
+          console.log('💬 New message:', msg);
 
-          await showNotification('💬 New Message!', {
-            body:
-              msg.content?.length > 50
-                ? `${msg.content.slice(0, 50)}...`
-                : msg.content,
-            icon: '/favicon.png',
-            data: { url: '/chat' },
-            tag: 'new-message',
-            actions: [
-              {
-                action: 'reply',
-                title: 'Reply',
-              },
-            ],
+          let senderName = 'A client';
+          if (msg.sender_id) {
+            const { data: user } = await supabase
+              .from('users')
+              .select('full_name')
+              .eq('id', msg.sender_id)
+              .single();
+            senderName = user?.full_name || senderName;
+          }
+
+          await showTrainerNotification('new_message', {
+            clientName: senderName,
+            content: msg.content,
+          });
+        },
+      )
+      .subscribe();
+
+    const profileSub = supabase
+      .channel(`notif_profile_${trainer.id}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'trainers',
+          filter: `id=eq.${trainer.id}`,
+        },
+        async (payload) => {
+          const updated = payload.new;
+          const old = payload.old;
+
+          console.log('Trainer updated:', updated);
+
+          if (!old.is_approved && updated.is_approved) {
+            await showTrainerNotification('approved', {});
+          }
+
+          if (
+            old.is_approved &&
+            !updated.is_approved &&
+            updated.rejection_reason
+          ) {
+            await showTrainerNotification('rejected', {
+              reason: updated.rejection_reason,
+            });
+          }
+
+          if (old.is_active && !updated.is_active) {
+            await showTrainerNotification('suspended', {});
+          }
+        },
+      )
+      .subscribe();
+
+    const reviewSub = supabase
+      .channel(`notif_review_${trainer.id}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'trainer_reviews',
+          filter: `trainer_id=eq.${trainer.id}`,
+        },
+        async (payload) => {
+          const review = payload.new;
+          console.log('⭐ New review:', review);
+
+          await showTrainerNotification('new_review', {
+            clientName: review.user_name,
+            rating: review.rating,
+            review: review.review?.slice(0, 50),
+          });
+        },
+      )
+      .subscribe();
+
+    const cancelSub = supabase
+      .channel(`notif_cancel_${trainer.id}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'trainer_bookings',
+          filter: `trainer_id=eq.${trainer.id}`,
+        },
+        async (payload) => {
+          const updated = payload.new;
+          const old = payload.old;
+
+          if (old.status !== 'cancelled' && updated.status === 'cancelled') {
+            console.log('❌ Booking cancelled');
+
+            let clientName = 'A client';
+            if (updated.user_id) {
+              const { data: user } = await supabase
+                .from('users')
+                .select('full_name')
+                .eq('id', updated.user_id)
+                .single();
+              clientName = user?.full_name || clientName;
+            }
+
+            await showTrainerNotification('booking_cancelled', {
+              clientName,
+              sessionType: updated.session_type,
+              date: updated.session_date,
+            });
+          }
+        },
+      )
+      .subscribe();
+
+    const payoutSub = supabase
+      .channel(`notif_payout_${trainer.id}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'payout_history',
+          filter: `trainer_id=eq.${trainer.id}`,
+        },
+        async (payload) => {
+          const payout = payload.new;
+          console.log('💰 Payout sent:', payout);
+
+          await showTrainerNotification('payout_sent', {
+            amount: payout.amount_ghs,
+            momoNumber: trainer.momo_number,
           });
         },
       )
@@ -187,8 +303,12 @@ export default function App() {
     return () => {
       supabase.removeChannel(bookingSub);
       supabase.removeChannel(messageSub);
+      supabase.removeChannel(profileSub);
+      supabase.removeChannel(reviewSub);
+      supabase.removeChannel(cancelSub);
+      supabase.removeChannel(payoutSub);
     };
-  }, [trainer?.id, trainer?.owner_id]);
+  }, [trainer?.id, trainer?.owner_id, trainer?.momo_number]);
 
   if (loading) {
     return (
