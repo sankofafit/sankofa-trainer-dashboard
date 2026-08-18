@@ -194,13 +194,13 @@ export default function BookingsPage({ trainer }) {
     <div>
       <div style={{ marginBottom: 24 }}>
         <h1 style={{
-          color: 'white', fontSize: 24,
+          color: 'var(--text-primary)', fontSize: 24,
           fontWeight: 900, margin: 0,
         }}>
           Bookings
         </h1>
         <p style={{
-          color: '#6B7B99', marginTop: 4,
+          color: 'var(--text-secondary)', marginTop: 4,
           fontSize: 14,
         }}>
           {bookings.length} total ·
@@ -254,11 +254,11 @@ export default function BookingsPage({ trainer }) {
         placeholder="Search by client name or session..."
         style={{
           width: '100%',
-          backgroundColor: 'rgba(255,255,255,0.05)',
-          border: '1px solid rgba(255,255,255,0.1)',
+          backgroundColor: 'var(--bg-input)',
+          border: '1px solid var(--border-input)',
           borderRadius: 10,
           padding: '11px 14px',
-          color: 'white',
+          color: 'var(--text-primary)',
           fontSize: 13,
           outline: 'none',
           boxSizing: 'border-box',
@@ -267,22 +267,22 @@ export default function BookingsPage({ trainer }) {
       />
 
       {loading ? (
-        <p style={{ color: '#6B7B99' }}>
+        <p style={{ color: 'var(--text-secondary)' }}>
           Loading bookings...
         </p>
       ) : filtered.length === 0 ? (
         <div style={{
           textAlign: 'center', padding: 60,
-          backgroundColor: 'rgba(27,47,107,0.3)',
+          backgroundColor: 'var(--bg-card)',
           borderRadius: 20,
-          border: '1px solid rgba(255,255,255,0.06)',
+          border: '1px solid var(--border)',
         }}>
           <RiCalendarEventLine
             size={48}
             color="rgba(245,200,66,0.2)"
             style={{ marginBottom: 16 }}
           />
-          <p style={{ color: '#6B7B99' }}>
+          <p style={{ color: 'var(--text-secondary)' }}>
             {search
               ? 'No bookings match your search'
               : filter === 'confirmed'
@@ -299,7 +299,7 @@ export default function BookingsPage({ trainer }) {
         }}>
           {filtered.map((booking) => (
             <div key={booking.id} style={{
-              backgroundColor: 'rgba(27,47,107,0.3)',
+              backgroundColor: 'var(--bg-card)',
               borderRadius: 16,
               border: `1px solid ${
                 booking.status === 'confirmed'
@@ -350,7 +350,7 @@ export default function BookingsPage({ trainer }) {
                     flexWrap: 'wrap',
                   }}>
                     <span style={{
-                      color: 'white',
+                      color: 'var(--text-primary)',
                       fontSize: 16,
                       fontWeight: 800,
                     }}>
@@ -391,7 +391,7 @@ export default function BookingsPage({ trainer }) {
                       display: 'flex',
                       alignItems: 'center',
                       gap: 4,
-                      color: '#6B7B99',
+                      color: 'var(--text-secondary)',
                       fontSize: 12,
                     }}>
                       <MdFitnessCenter size={12} />
@@ -401,7 +401,7 @@ export default function BookingsPage({ trainer }) {
                       display: 'flex',
                       alignItems: 'center',
                       gap: 4,
-                      color: '#6B7B99',
+                      color: 'var(--text-secondary)',
                       fontSize: 12,
                     }}>
                       <RiCalendarEventLine size={12} />
@@ -411,7 +411,7 @@ export default function BookingsPage({ trainer }) {
                       display: 'flex',
                       alignItems: 'center',
                       gap: 4,
-                      color: '#6B7B99',
+                      color: 'var(--text-secondary)',
                       fontSize: 12,
                     }}>
                       <RiTimeLine size={12} />
@@ -430,7 +430,7 @@ export default function BookingsPage({ trainer }) {
                 </div>
 
                 <div style={{
-                  color: '#6B7B99',
+                  color: 'var(--text-secondary)',
                   fontSize: 18,
                   transition: 'transform 0.2s',
                   transform:
@@ -480,7 +480,7 @@ export default function BookingsPage({ trainer }) {
                           label: 'Name',
                           value: booking.user?.full_name
                             || 'Unknown',
-                          color: 'white',
+                          color: 'var(--text-primary)',
                         },
                         {
                           icon: RiMailLine,
@@ -533,7 +533,7 @@ export default function BookingsPage({ trainer }) {
                           />
                           <div>
                             <div style={{
-                              color: '#6B7B99',
+                              color: 'var(--text-secondary)',
                               fontSize: 10,
                               fontWeight: 600,
                               textTransform: 'uppercase',
@@ -571,13 +571,13 @@ export default function BookingsPage({ trainer }) {
                       minWidth: 150,
                     }}>
                       <div style={{
-                        color: '#6B7B99',
+                        color: 'var(--text-secondary)',
                         fontSize: 10, marginBottom: 4,
                       }}>
                         Session Fee
                       </div>
                       <div style={{
-                        color: 'white',
+                        color: 'var(--text-primary)',
                         fontSize: 16, fontWeight: 800,
                       }}>
                         GHS {booking.amount_ghs}
@@ -613,7 +613,7 @@ export default function BookingsPage({ trainer }) {
                             border: 'none',
                             borderRadius: 10,
                             padding: '12px',
-                            color: 'white',
+                            color: 'var(--text-primary)',
                             fontSize: 13,
                             fontWeight: 800,
                             cursor: 'pointer',

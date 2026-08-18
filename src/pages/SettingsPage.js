@@ -44,7 +44,7 @@ export default function SettingsPage({ session }) {
       <div style={{ marginBottom: 24 }}>
         <h1
           style={{
-            color: 'white',
+            color: 'var(--text-primary)',
             fontSize: 24,
             fontWeight: 900,
             margin: 0,
@@ -56,10 +56,10 @@ export default function SettingsPage({ session }) {
 
       <div
         style={{
-          backgroundColor: 'rgba(27,47,107,0.3)',
+          backgroundColor: 'var(--bg-card)',
           borderRadius: 16,
           padding: 24,
-          border: '1px solid rgba(255,255,255,0.06)',
+          border: '1px solid var(--border)',
           marginBottom: 16,
           maxWidth: 500,
         }}
@@ -76,18 +76,18 @@ export default function SettingsPage({ session }) {
         >
           Account
         </div>
-        <div style={{ color: '#6B7B99', fontSize: 13 }}>
-          <strong style={{ color: 'white' }}>Email: </strong>
+        <div style={{ color: 'var(--text-secondary)', fontSize: 13 }}>
+          <strong style={{ color: 'var(--text-primary)' }}>Email: </strong>
           {session?.user?.email}
         </div>
       </div>
 
       <div
         style={{
-          backgroundColor: 'rgba(27,47,107,0.3)',
+          backgroundColor: 'var(--bg-card)',
           borderRadius: 16,
           padding: 24,
-          border: '1px solid rgba(255,255,255,0.06)',
+          border: '1px solid var(--border)',
           marginBottom: 16,
           maxWidth: 500,
         }}
@@ -165,7 +165,7 @@ export default function SettingsPage({ session }) {
             disabled={loading}
             style={{
               backgroundColor: '#8B5CF6',
-              color: 'white',
+              color: 'var(--text-primary)',
               border: 'none',
               borderRadius: 10,
               padding: '11px 20px',
@@ -182,10 +182,10 @@ export default function SettingsPage({ session }) {
 
       <div
         style={{
-          backgroundColor: 'rgba(27,47,107,0.3)',
+          backgroundColor: 'var(--bg-card)',
           borderRadius: 16,
           padding: 24,
-          border: '1px solid rgba(255,255,255,0.06)',
+          border: '1px solid var(--border)',
           marginBottom: 16,
           maxWidth: 500,
         }}
@@ -243,7 +243,7 @@ export default function SettingsPage({ session }) {
 
 const labelStyle = {
   display: 'block',
-  color: '#6B7B99',
+  color: 'var(--text-secondary)',
   fontSize: 10,
   fontWeight: 700,
   letterSpacing: 1,
@@ -253,11 +253,11 @@ const labelStyle = {
 
 const inputStyle = {
   width: '100%',
-  backgroundColor: 'rgba(255,255,255,0.05)',
-  border: '1px solid rgba(255,255,255,0.1)',
+  backgroundColor: 'var(--bg-input)',
+  border: '1px solid var(--border-input)',
   borderRadius: 10,
   padding: '11px 14px',
-  color: 'white',
+  color: 'var(--text-primary)',
   fontSize: 14,
   outline: 'none',
   boxSizing: 'border-box',

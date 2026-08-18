@@ -5,9 +5,14 @@ import {
   RiLogoutBoxLine,
   RiCheckboxCircleLine,
   RiTimeLine,
+  RiSunLine,
+  RiMoonLine,
 } from 'react-icons/ri';
+import useTheme from '../hooks/useTheme';
 
 export default function Header({ trainer, session, onMenuToggle, isMobile }) {
+  const { theme, toggleTheme } = useTheme();
+
   const handleLogout = async () => {
     if (window.confirm('Sign out of Trainer Dashboard?')) {
       await supabase.auth.signOut();
@@ -88,6 +93,42 @@ export default function Header({ trainer, session, onMenuToggle, isMobile }) {
         {!isMobile && (
           <div style={{ color: '#6B7B99', fontSize: 12 }}>{session?.user?.email}</div>
         )}
+
+        <button
+          type="button"
+          onClick={toggleTheme}
+          title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
+            backgroundColor:
+              theme === 'dark' ? 'rgba(255,255,255,0.06)' : 'rgba(27,47,107,0.08)',
+            border: `1px solid ${
+              theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(27,47,107,0.15)'
+            }`,
+            borderRadius: 50,
+            padding: '7px 14px',
+            cursor: 'pointer',
+            color: theme === 'dark' ? '#F5C842' : '#1B2F6B',
+            fontSize: 13,
+            fontWeight: 700,
+            transition: 'all 0.2s',
+            flexShrink: 0,
+          }}
+        >
+          {theme === 'dark' ? (
+            <>
+              <RiSunLine size={16} />
+              {!isMobile && <span style={{ fontSize: 12 }}>Light</span>}
+            </>
+          ) : (
+            <>
+              <RiMoonLine size={16} />
+              {!isMobile && <span style={{ fontSize: 12 }}>Dark</span>}
+            </>
+          )}
+        </button>
 
         <button
           type="button"

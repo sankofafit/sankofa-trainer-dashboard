@@ -127,9 +127,9 @@ export default function DashboardPage({ trainer }) {
         style={{
           textAlign: 'center',
           padding: 60,
-          backgroundColor: 'rgba(27,47,107,0.3)',
+          backgroundColor: 'var(--bg-card)',
           borderRadius: 20,
-          border: '1px solid rgba(255,255,255,0.06)',
+          border: '1px solid var(--border)',
         }}
       >
         <RiUserHeartLine
@@ -137,17 +137,17 @@ export default function DashboardPage({ trainer }) {
           color="rgba(139,92,246,0.3)"
           style={{ marginBottom: 16 }}
         />
-        <h2 style={{ color: 'white', marginBottom: 8 }}>
+        <h2 style={{ color: 'var(--text-primary)', marginBottom: 8 }}>
           Complete Your Profile
         </h2>
-        <p style={{ color: '#6B7B99', marginBottom: 24 }}>
+        <p style={{ color: 'var(--text-secondary)', marginBottom: 24 }}>
           Set up your trainer profile to start receiving bookings on Sankofa Fit
         </p>
         <Link
           to="/profile"
           style={{
             backgroundColor: '#8B5CF6',
-            color: 'white',
+            color: 'var(--text-primary)',
             padding: '12px 24px',
             borderRadius: 12,
             fontWeight: 800,
@@ -200,7 +200,7 @@ export default function DashboardPage({ trainer }) {
       <div style={{ marginBottom: 24 }}>
         <h1
           style={{
-            color: 'white',
+            color: 'var(--text-primary)',
             fontSize: 24,
             fontWeight: 900,
             margin: 0,
@@ -208,7 +208,7 @@ export default function DashboardPage({ trainer }) {
         >
           Welcome back, {trainer.name}! 💪
         </h1>
-        <p style={{ color: '#6B7B99', marginTop: 4, fontSize: 14 }}>
+        <p style={{ color: 'var(--text-secondary)', marginTop: 4, fontSize: 14 }}>
           {trainer.speciality} · {trainer.city}
         </p>
       </div>
@@ -240,7 +240,7 @@ export default function DashboardPage({ trainer }) {
               >
                 New Booking!
               </div>
-              <div style={{ color: '#6B7B99', fontSize: 13 }}>
+              <div style={{ color: 'var(--text-secondary)', fontSize: 13 }}>
                 {newBookingAlert.session} · {newBookingAlert.date} ·{' '}
                 {newBookingAlert.time} · GHS {newBookingAlert.amount}
               </div>
@@ -252,7 +252,7 @@ export default function DashboardPage({ trainer }) {
             style={{
               background: 'none',
               border: 'none',
-              color: '#6B7B99',
+              color: 'var(--text-secondary)',
               cursor: 'pointer',
               fontSize: 18,
             }}
@@ -287,7 +287,7 @@ export default function DashboardPage({ trainer }) {
             >
               Your profile is under review
             </div>
-            <div style={{ color: '#6B7B99', fontSize: 13 }}>
+            <div style={{ color: 'var(--text-secondary)', fontSize: 13 }}>
               Sankofa Fit admin will approve your profile within 24-48 hours.
               Complete your profile while you wait!
             </div>
@@ -307,10 +307,10 @@ export default function DashboardPage({ trainer }) {
           <div
             key={i}
             style={{
-              backgroundColor: 'rgba(27,47,107,0.4)',
+              backgroundColor: 'var(--bg-card)',
               borderRadius: 16,
               padding: 18,
-              border: '1px solid rgba(255,255,255,0.06)',
+              border: '1px solid var(--border)',
             }}
           >
             <div
@@ -340,7 +340,7 @@ export default function DashboardPage({ trainer }) {
             </div>
             <div
               style={{
-                color: 'white',
+                color: 'var(--text-primary)',
                 fontSize: 13,
                 fontWeight: 700,
                 marginBottom: 2,
@@ -348,16 +348,16 @@ export default function DashboardPage({ trainer }) {
             >
               {card.label}
             </div>
-            <div style={{ color: '#6B7B99', fontSize: 11 }}>{card.sub}</div>
+            <div style={{ color: 'var(--text-secondary)', fontSize: 11 }}>{card.sub}</div>
           </div>
         ))}
       </div>
 
       <div
         style={{
-          backgroundColor: 'rgba(27,47,107,0.3)',
+          backgroundColor: 'var(--bg-card)',
           borderRadius: 20,
-          border: '1px solid rgba(255,255,255,0.06)',
+          border: '1px solid var(--border)',
           overflow: 'hidden',
         }}
       >
@@ -372,7 +372,7 @@ export default function DashboardPage({ trainer }) {
         >
           <h3
             style={{
-              color: 'white',
+              color: 'var(--text-primary)',
               fontSize: 15,
               fontWeight: 800,
               margin: 0,
@@ -400,7 +400,7 @@ export default function DashboardPage({ trainer }) {
               color="rgba(245,200,66,0.2)"
               style={{ marginBottom: 12 }}
             />
-            <p style={{ color: '#6B7B99' }}>
+            <p style={{ color: 'var(--text-secondary)' }}>
               No bookings yet. Once your profile is approved clients can book
               you!
             </p>
@@ -421,7 +421,7 @@ export default function DashboardPage({ trainer }) {
                       <th
                         key={h}
                         style={{
-                          color: '#6B7B99',
+                          color: 'var(--text-secondary)',
                           fontSize: 10,
                           fontWeight: 700,
                           letterSpacing: 1,
@@ -447,7 +447,7 @@ export default function DashboardPage({ trainer }) {
                     <td style={tdStyle}>
                       {booking.session_type || 'Session'}
                     </td>
-                    <td style={{ ...tdStyle, color: '#6B7B99' }}>
+                    <td style={{ ...tdStyle, color: 'var(--text-secondary)' }}>
                       {formatDate(
                         booking.session_date || booking.created_at,
                       )}
@@ -490,7 +490,7 @@ export default function DashboardPage({ trainer }) {
 }
 
 const tdStyle = {
-  color: 'white',
+  color: 'var(--text-primary)',
   fontSize: 13,
   padding: '13px 16px',
 };

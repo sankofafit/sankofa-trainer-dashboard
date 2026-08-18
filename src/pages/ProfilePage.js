@@ -187,7 +187,7 @@ export default function ProfilePage({ trainer, setTrainer, userId }) {
       <div style={{ marginBottom: 24 }}>
         <h1
           style={{
-            color: 'white',
+            color: 'var(--text-primary)',
             fontSize: 24,
             fontWeight: 900,
             margin: 0,
@@ -195,7 +195,7 @@ export default function ProfilePage({ trainer, setTrainer, userId }) {
         >
           My Profile
         </h1>
-        <p style={{ color: '#6B7B99', marginTop: 4, fontSize: 14 }}>
+        <p style={{ color: 'var(--text-secondary)', marginTop: 4, fontSize: 14 }}>
           This appears on the Sankofa Fit app
         </p>
       </div>
@@ -234,10 +234,10 @@ export default function ProfilePage({ trainer, setTrainer, userId }) {
 
       <div
         style={{
-          backgroundColor: 'rgba(27,47,107,0.3)',
+          backgroundColor: 'var(--bg-card)',
           borderRadius: 16,
           padding: 24,
-          border: '1px solid rgba(255,255,255,0.06)',
+          border: '1px solid var(--border)',
           marginBottom: 16,
         }}
       >
@@ -313,7 +313,7 @@ export default function ProfilePage({ trainer, setTrainer, userId }) {
             >
               {uploadingPhoto ? '⏳ Uploading...' : '📷 Upload Photo'}
             </button>
-            <p style={{ color: '#6B7B99', fontSize: 11 }}>
+            <p style={{ color: 'var(--text-secondary)', fontSize: 11 }}>
               JPG or PNG · Max 5MB · Square photo works best
             </p>
           </div>
@@ -335,10 +335,10 @@ export default function ProfilePage({ trainer, setTrainer, userId }) {
       <form onSubmit={handleSave}>
         <div
           style={{
-            backgroundColor: 'rgba(27,47,107,0.3)',
+            backgroundColor: 'var(--bg-card)',
             borderRadius: 16,
             padding: 24,
-            border: '1px solid rgba(255,255,255,0.06)',
+            border: '1px solid var(--border)',
             marginBottom: 16,
           }}
         >
@@ -454,7 +454,7 @@ export default function ProfilePage({ trainer, setTrainer, userId }) {
               />
               <div
                 style={{
-                  color: '#6B7B99',
+                  color: 'var(--text-secondary)',
                   fontSize: 11,
                   marginTop: 6,
                 }}
@@ -484,10 +484,10 @@ export default function ProfilePage({ trainer, setTrainer, userId }) {
 
         <div
           style={{
-            backgroundColor: 'rgba(27,47,107,0.3)',
+            backgroundColor: 'var(--bg-card)',
             borderRadius: 16,
             padding: 24,
-            border: '1px solid rgba(255,255,255,0.06)',
+            border: '1px solid var(--border)',
             marginBottom: 16,
           }}
         >
@@ -581,10 +581,10 @@ export default function ProfilePage({ trainer, setTrainer, userId }) {
 
         <div
           style={{
-            backgroundColor: 'rgba(27,47,107,0.3)',
+            backgroundColor: 'var(--bg-card)',
             borderRadius: 16,
             padding: 24,
-            border: '1px solid rgba(255,255,255,0.06)',
+            border: '1px solid var(--border)',
             marginBottom: 20,
           }}
         >
@@ -602,7 +602,7 @@ export default function ProfilePage({ trainer, setTrainer, userId }) {
           </div>
           <p
             style={{
-              color: '#6B7B99',
+              color: 'var(--text-secondary)',
               fontSize: 13,
               marginBottom: 16,
               lineHeight: 1.5,
@@ -661,7 +661,7 @@ export default function ProfilePage({ trainer, setTrainer, userId }) {
           style={{
             width: '100%',
             backgroundColor: saving ? 'rgba(139,92,246,0.5)' : '#8B5CF6',
-            color: 'white',
+            color: 'var(--text-primary)',
             border: 'none',
             borderRadius: 14,
             padding: '15px',
@@ -679,7 +679,7 @@ export default function ProfilePage({ trainer, setTrainer, userId }) {
 
 const labelStyle = {
   display: 'block',
-  color: '#6B7B99',
+  color: 'var(--text-secondary)',
   fontSize: 10,
   fontWeight: 700,
   letterSpacing: 1,
@@ -689,11 +689,11 @@ const labelStyle = {
 
 const inputStyle = {
   width: '100%',
-  backgroundColor: 'rgba(255,255,255,0.05)',
-  border: '1px solid rgba(255,255,255,0.1)',
+  backgroundColor: 'var(--bg-input)',
+  border: '1px solid var(--border-input)',
   borderRadius: 10,
   padding: '11px 14px',
-  color: 'white',
+  color: 'var(--text-primary)',
   fontSize: 14,
   outline: 'none',
   boxSizing: 'border-box',

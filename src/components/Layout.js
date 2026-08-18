@@ -26,7 +26,7 @@ export default function Layout({ children, trainer, session, loadTrainer, unread
       style={{
         display: 'flex',
         minHeight: '100vh',
-        backgroundColor: '#080C1C',
+        backgroundColor: 'var(--bg-main)',
         position: 'relative',
       }}
     >
@@ -62,6 +62,8 @@ export default function Layout({ children, trainer, session, loadTrainer, unread
           transition: 'margin-left 0.3s ease',
           minHeight: '100vh',
           width: '100%',
+          backgroundColor: 'var(--bg-main)',
+          overflow: 'auto',
         }}
       >
         <Header
@@ -76,6 +78,7 @@ export default function Layout({ children, trainer, session, loadTrainer, unread
             padding: isMobile ? 16 : 24,
             overflowY: 'auto',
             overflowX: 'hidden',
+            backgroundColor: 'var(--bg-main)',
           }}
         >
           {children}

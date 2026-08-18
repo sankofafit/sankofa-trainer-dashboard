@@ -88,13 +88,13 @@ export default function GymsPage({ trainer }) {
     <div>
       <div style={{ marginBottom: 24 }}>
         <h1 style={{
-          color: 'white', fontSize: 24,
+          color: 'var(--text-primary)', fontSize: 24,
           fontWeight: 900, margin: 0,
         }}>
           My Gyms
         </h1>
         <p style={{
-          color: '#6B7B99', marginTop: 4,
+          color: 'var(--text-secondary)', marginTop: 4,
           fontSize: 14,
         }}>
           Select gyms where you offer
@@ -119,7 +119,7 @@ export default function GymsPage({ trainer }) {
         borderRadius: 12,
         padding: '12px 16px',
         marginBottom: 20,
-        color: '#6B7B99',
+        color: 'var(--text-secondary)',
         fontSize: 13,
         lineHeight: 1.6,
       }}>
@@ -135,11 +135,11 @@ export default function GymsPage({ trainer }) {
         placeholder="Search gyms by name or city..."
         style={{
           width: '100%',
-          backgroundColor: 'rgba(255,255,255,0.05)',
-          border: '1px solid rgba(255,255,255,0.1)',
+          backgroundColor: 'var(--bg-input)',
+          border: '1px solid var(--border-input)',
           borderRadius: 10,
           padding: '11px 14px',
-          color: 'white',
+          color: 'var(--text-primary)',
           fontSize: 13,
           outline: 'none',
           boxSizing: 'border-box',
@@ -148,22 +148,22 @@ export default function GymsPage({ trainer }) {
       />
 
       {loading ? (
-        <p style={{ color: '#6B7B99' }}>
+        <p style={{ color: 'var(--text-secondary)' }}>
           Loading gyms...
         </p>
       ) : filtered.length === 0 ? (
         <div style={{
           textAlign: 'center', padding: 60,
-          backgroundColor: 'rgba(27,47,107,0.3)',
+          backgroundColor: 'var(--bg-card)',
           borderRadius: 20,
-          border: '1px solid rgba(255,255,255,0.06)',
+          border: '1px solid var(--border)',
         }}>
           <RiStoreLine
             size={48}
             color="rgba(139,92,246,0.3)"
             style={{ marginBottom: 16 }}
           />
-          <p style={{ color: '#6B7B99' }}>
+          <p style={{ color: 'var(--text-secondary)' }}>
             {search
               ? 'No gyms match your search'
               : 'No approved gyms available yet'
@@ -226,7 +226,7 @@ export default function GymsPage({ trainer }) {
 
                 <div style={{ flex: 1 }}>
                   <div style={{
-                    color: 'white',
+                    color: 'var(--text-primary)',
                     fontSize: 15, fontWeight: 700,
                     marginBottom: 4,
                   }}>
@@ -236,7 +236,7 @@ export default function GymsPage({ trainer }) {
                     display: 'flex',
                     alignItems: 'center',
                     gap: 4,
-                    color: '#6B7B99',
+                    color: 'var(--text-secondary)',
                     fontSize: 12,
                   }}>
                     <RiMapPinLine size={12} />

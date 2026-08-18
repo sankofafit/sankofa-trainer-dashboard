@@ -71,7 +71,7 @@ export default function AvailabilityPage({ trainer }) {
 
   if (!trainer) {
     return (
-      <p style={{ color: '#6B7B99' }}>Complete your profile first.</p>
+      <p style={{ color: 'var(--text-secondary)' }}>Complete your profile first.</p>
     );
   }
 
@@ -80,7 +80,7 @@ export default function AvailabilityPage({ trainer }) {
       <div style={{ marginBottom: 24 }}>
         <h1
           style={{
-            color: 'white',
+            color: 'var(--text-primary)',
             fontSize: 24,
             fontWeight: 900,
             margin: 0,
@@ -88,7 +88,7 @@ export default function AvailabilityPage({ trainer }) {
         >
           Availability
         </h1>
-        <p style={{ color: '#6B7B99', marginTop: 4, fontSize: 14 }}>
+        <p style={{ color: 'var(--text-secondary)', marginTop: 4, fontSize: 14 }}>
           Set the days and hours you are available for sessions
         </p>
       </div>
@@ -111,10 +111,10 @@ export default function AvailabilityPage({ trainer }) {
 
       <div
         style={{
-          backgroundColor: 'rgba(27,47,107,0.3)',
+          backgroundColor: 'var(--bg-card)',
           borderRadius: 20,
           padding: 24,
-          border: '1px solid rgba(255,255,255,0.06)',
+          border: '1px solid var(--border)',
           marginBottom: 20,
         }}
       >
@@ -202,7 +202,7 @@ export default function AvailabilityPage({ trainer }) {
                     }
                     style={timeInputStyle}
                   />
-                  <span style={{ color: '#6B7B99', fontSize: 12 }}>to</span>
+                  <span style={{ color: 'var(--text-secondary)', fontSize: 12 }}>to</span>
                   <input
                     type="time"
                     value={dayData.end}
@@ -236,7 +236,7 @@ export default function AvailabilityPage({ trainer }) {
       >
         <span
           style={{
-            color: '#6B7B99',
+            color: 'var(--text-secondary)',
             fontSize: 12,
             alignSelf: 'center',
           }}
@@ -288,7 +288,7 @@ export default function AvailabilityPage({ trainer }) {
         style={{
           width: '100%',
           backgroundColor: saving ? 'rgba(139,92,246,0.5)' : '#8B5CF6',
-          color: 'white',
+          color: 'var(--text-primary)',
           border: 'none',
           borderRadius: 14,
           padding: '15px',
@@ -304,11 +304,11 @@ export default function AvailabilityPage({ trainer }) {
 }
 
 const timeInputStyle = {
-  backgroundColor: 'rgba(255,255,255,0.05)',
-  border: '1px solid rgba(255,255,255,0.1)',
+  backgroundColor: 'var(--bg-input)',
+  border: '1px solid var(--border-input)',
   borderRadius: 8,
   padding: '7px 10px',
-  color: 'white',
+  color: 'var(--text-primary)',
   fontSize: 13,
   outline: 'none',
 };

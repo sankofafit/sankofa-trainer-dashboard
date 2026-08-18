@@ -82,7 +82,7 @@ export default function App() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: '#080C1C',
+          backgroundColor: 'var(--bg-main)',
           flexDirection: 'column',
           gap: 16,
         }}
@@ -97,7 +97,7 @@ export default function App() {
         >
           SANKOFA FIT
         </div>
-        <div style={{ color: '#6B7B99', fontSize: 13 }}>Trainer Dashboard</div>
+        <div style={{ color: 'var(--text-secondary)', fontSize: 13 }}>Trainer Dashboard</div>
         <div
           style={{
             width: 36,

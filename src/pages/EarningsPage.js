@@ -127,7 +127,7 @@ export default function EarningsPage({ trainer }) {
 
   if (!trainer) {
     return (
-      <p style={{ color: '#6B7B99' }}>Complete your profile first.</p>
+      <p style={{ color: 'var(--text-secondary)' }}>Complete your profile first.</p>
     );
   }
 
@@ -136,7 +136,7 @@ export default function EarningsPage({ trainer }) {
       <div style={{ marginBottom: 24 }}>
         <h1
           style={{
-            color: 'white',
+            color: 'var(--text-primary)',
             fontSize: 24,
             fontWeight: 900,
             margin: 0,
@@ -144,7 +144,7 @@ export default function EarningsPage({ trainer }) {
         >
           Earnings
         </h1>
-        <p style={{ color: '#6B7B99', marginTop: 4, fontSize: 14 }}>
+        <p style={{ color: 'var(--text-secondary)', marginTop: 4, fontSize: 14 }}>
           Your revenue from Sankofa Fit sessions
         </p>
       </div>
@@ -156,7 +156,7 @@ export default function EarningsPage({ trainer }) {
           borderRadius: 12,
           padding: '12px 16px',
           marginBottom: 24,
-          color: '#6B7B99',
+          color: 'var(--text-secondary)',
           fontSize: 13,
         }}
       >
@@ -178,10 +178,10 @@ export default function EarningsPage({ trainer }) {
           <div
             key={i}
             style={{
-              backgroundColor: 'rgba(27,47,107,0.4)',
+              backgroundColor: 'var(--bg-card)',
               borderRadius: 16,
               padding: 18,
-              border: '1px solid rgba(255,255,255,0.06)',
+              border: '1px solid var(--border)',
             }}
           >
             <div
@@ -211,7 +211,7 @@ export default function EarningsPage({ trainer }) {
             </div>
             <div
               style={{
-                color: 'white',
+                color: 'var(--text-primary)',
                 fontSize: 13,
                 fontWeight: 700,
                 marginBottom: 2,
@@ -219,22 +219,22 @@ export default function EarningsPage({ trainer }) {
             >
               {card.label}
             </div>
-            <div style={{ color: '#6B7B99', fontSize: 11 }}>{card.sub}</div>
+            <div style={{ color: 'var(--text-secondary)', fontSize: 11 }}>{card.sub}</div>
           </div>
         ))}
       </div>
 
       <div
         style={{
-          backgroundColor: 'rgba(27,47,107,0.3)',
+          backgroundColor: 'var(--bg-card)',
           borderRadius: 20,
           padding: 24,
-          border: '1px solid rgba(255,255,255,0.06)',
+          border: '1px solid var(--border)',
         }}
       >
         <h2
           style={{
-            color: 'white',
+            color: 'var(--text-primary)',
             fontSize: 16,
             fontWeight: 800,
             marginBottom: 20,
@@ -245,7 +245,7 @@ export default function EarningsPage({ trainer }) {
         {earnings.byMonth.length === 0 ? (
           <p
             style={{
-              color: '#6B7B99',
+              color: 'var(--text-secondary)',
               textAlign: 'center',
               padding: 20,
             }}
@@ -264,7 +264,7 @@ export default function EarningsPage({ trainer }) {
                       <th
                         key={h}
                         style={{
-                          color: '#6B7B99',
+                          color: 'var(--text-secondary)',
                           fontSize: 10,
                           fontWeight: 700,
                           letterSpacing: 1,
@@ -314,7 +314,7 @@ export default function EarningsPage({ trainer }) {
 }
 
 const tdStyle = {
-  color: 'white',
+  color: 'var(--text-primary)',
   fontSize: 13,
   padding: '12px',
 };

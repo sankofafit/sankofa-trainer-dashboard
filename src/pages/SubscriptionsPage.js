@@ -41,7 +41,7 @@ const SESSIONS_PER_WEEK = [1, 2, 3, 4, 5, 6, 7];
 
 const labelStyle = {
   display: 'block',
-  color: '#6B7B99',
+  color: 'var(--text-secondary)',
   fontSize: 10,
   fontWeight: 700,
   letterSpacing: 1,
@@ -51,11 +51,11 @@ const labelStyle = {
 
 const inputStyle = {
   width: '100%',
-  backgroundColor: 'rgba(255,255,255,0.05)',
-  border: '1px solid rgba(255,255,255,0.1)',
+  backgroundColor: 'var(--bg-input)',
+  border: '1px solid var(--border-input)',
   borderRadius: 10,
   padding: '11px 14px',
-  color: 'white',
+  color: 'var(--text-primary)',
   fontSize: 14,
   outline: 'none',
   boxSizing: 'border-box',
@@ -192,10 +192,10 @@ export default function SubscriptionsPage({ trainer }) {
         }}
       >
         <div>
-          <h1 style={{ color: 'white', fontSize: 24, fontWeight: 900, margin: 0 }}>
+          <h1 style={{ color: 'var(--text-primary)', fontSize: 24, fontWeight: 900, margin: 0 }}>
             Subscription Plans
           </h1>
-          <p style={{ color: '#6B7B99', marginTop: 4, fontSize: 14 }}>
+          <p style={{ color: 'var(--text-secondary)', marginTop: 4, fontSize: 14 }}>
             Create weekly or monthly training packages for clients
           </p>
         </div>
@@ -207,7 +207,7 @@ export default function SubscriptionsPage({ trainer }) {
           }}
           style={{
             backgroundColor: '#8B5CF6',
-            color: 'white',
+            color: 'var(--text-primary)',
             border: 'none',
             borderRadius: 12,
             padding: '11px 20px',
@@ -231,7 +231,7 @@ export default function SubscriptionsPage({ trainer }) {
           borderRadius: 12,
           padding: '12px 16px',
           marginBottom: 20,
-          color: '#6B7B99',
+          color: 'var(--text-secondary)',
           fontSize: 13,
           lineHeight: 1.6,
         }}
@@ -243,7 +243,7 @@ export default function SubscriptionsPage({ trainer }) {
       {showForm ? (
         <div
           style={{
-            backgroundColor: 'rgba(27,47,107,0.4)',
+            backgroundColor: 'var(--bg-card)',
             borderRadius: 20,
             padding: 24,
             marginBottom: 24,
@@ -258,7 +258,7 @@ export default function SubscriptionsPage({ trainer }) {
               marginBottom: 20,
             }}
           >
-            <h2 style={{ color: 'white', fontSize: 18, fontWeight: 800, margin: 0 }}>
+            <h2 style={{ color: 'var(--text-primary)', fontSize: 18, fontWeight: 800, margin: 0 }}>
               {editingSub ? 'Edit Plan' : 'New Subscription Plan'}
             </h2>
             <button
@@ -270,7 +270,7 @@ export default function SubscriptionsPage({ trainer }) {
               style={{
                 background: 'none',
                 border: 'none',
-                color: '#6B7B99',
+                color: 'var(--text-secondary)',
                 fontSize: 20,
                 cursor: 'pointer',
               }}
@@ -320,7 +320,7 @@ export default function SubscriptionsPage({ trainer }) {
                       }`,
                       borderRadius: 12,
                       padding: '14px',
-                      color: 'white',
+                      color: 'var(--text-primary)',
                       cursor: 'pointer',
                       textAlign: 'left',
                     }}
@@ -335,7 +335,7 @@ export default function SubscriptionsPage({ trainer }) {
                     >
                       {type.label}
                     </div>
-                    <div style={{ fontSize: 11, color: '#6B7B99' }}>{type.description}</div>
+                    <div style={{ fontSize: 11, color: 'var(--text-secondary)' }}>{type.description}</div>
                   </button>
                 ))}
               </div>
@@ -413,7 +413,7 @@ export default function SubscriptionsPage({ trainer }) {
                       <div>
                         <div
                           style={{
-                            color: '#6B7B99',
+                            color: 'var(--text-secondary)',
                             fontSize: 10,
                             fontWeight: 700,
                             letterSpacing: 1,
@@ -429,7 +429,7 @@ export default function SubscriptionsPage({ trainer }) {
                       <div>
                         <div
                           style={{
-                            color: '#6B7B99',
+                            color: 'var(--text-secondary)',
                             fontSize: 10,
                             fontWeight: 700,
                             letterSpacing: 1,
@@ -445,7 +445,7 @@ export default function SubscriptionsPage({ trainer }) {
                       <div>
                         <div
                           style={{
-                            color: '#6B7B99',
+                            color: 'var(--text-secondary)',
                             fontSize: 10,
                             fontWeight: 700,
                             letterSpacing: 1,
@@ -491,7 +491,7 @@ export default function SubscriptionsPage({ trainer }) {
                   border: '1px solid rgba(255,255,255,0.15)',
                   borderRadius: 10,
                   padding: '11px 20px',
-                  color: '#6B7B99',
+                  color: 'var(--text-secondary)',
                   fontSize: 14,
                   fontWeight: 600,
                   cursor: 'pointer',
@@ -507,7 +507,7 @@ export default function SubscriptionsPage({ trainer }) {
                   border: 'none',
                   borderRadius: 10,
                   padding: '11px 24px',
-                  color: 'white',
+                  color: 'var(--text-primary)',
                   fontSize: 14,
                   fontWeight: 800,
                   cursor: 'pointer',
@@ -522,15 +522,15 @@ export default function SubscriptionsPage({ trainer }) {
       ) : null}
 
       {loading ? (
-        <p style={{ color: '#6B7B99' }}>Loading plans...</p>
+        <p style={{ color: 'var(--text-secondary)' }}>Loading plans...</p>
       ) : subscriptions.length === 0 && !showForm ? (
         <div
           style={{
             textAlign: 'center',
             padding: 60,
-            backgroundColor: 'rgba(27,47,107,0.3)',
+            backgroundColor: 'var(--bg-card)',
             borderRadius: 20,
-            border: '1px solid rgba(255,255,255,0.06)',
+            border: '1px solid var(--border)',
           }}
         >
           <RiCalendarEventLine
@@ -538,8 +538,8 @@ export default function SubscriptionsPage({ trainer }) {
             color="rgba(139,92,246,0.3)"
             style={{ marginBottom: 16 }}
           />
-          <h3 style={{ color: 'white', marginBottom: 8 }}>No subscription plans yet</h3>
-          <p style={{ color: '#6B7B99', marginBottom: 24 }}>
+          <h3 style={{ color: 'var(--text-primary)', marginBottom: 8 }}>No subscription plans yet</h3>
+          <p style={{ color: 'var(--text-secondary)', marginBottom: 24 }}>
             Create subscription packages to offer clients regular training sessions
           </p>
           <button
@@ -547,7 +547,7 @@ export default function SubscriptionsPage({ trainer }) {
             onClick={() => setShowForm(true)}
             style={{
               backgroundColor: '#8B5CF6',
-              color: 'white',
+              color: 'var(--text-primary)',
               border: 'none',
               borderRadius: 12,
               padding: '12px 24px',
@@ -576,7 +576,7 @@ export default function SubscriptionsPage({ trainer }) {
               <div
                 key={sub.id}
                 style={{
-                  backgroundColor: 'rgba(27,47,107,0.4)',
+                  backgroundColor: 'var(--bg-card)',
                   borderRadius: 16,
                   border: '1px solid rgba(139,92,246,0.2)',
                   overflow: 'hidden',
@@ -610,10 +610,10 @@ export default function SubscriptionsPage({ trainer }) {
                       >
                         {typeInfo?.label}
                       </div>
-                      <div style={{ color: 'white', fontSize: 22, fontWeight: 900 }}>
+                      <div style={{ color: 'var(--text-primary)', fontSize: 22, fontWeight: 900 }}>
                         GHS {sub.price_ghs}
                       </div>
-                      <div style={{ color: '#6B7B99', fontSize: 12, marginTop: 2 }}>
+                      <div style={{ color: 'var(--text-secondary)', fontSize: 12, marginTop: 2 }}>
                         GHS {perSession} per session
                       </div>
                     </div>
@@ -629,7 +629,7 @@ export default function SubscriptionsPage({ trainer }) {
                       <div style={{ color: '#8B5CF6', fontSize: 22, fontWeight: 900 }}>
                         {sub.sessions_per_week}x
                       </div>
-                      <div style={{ color: '#6B7B99', fontSize: 10, fontWeight: 700 }}>
+                      <div style={{ color: 'var(--text-secondary)', fontSize: 10, fontWeight: 700 }}>
                         PER WEEK
                       </div>
                     </div>
@@ -650,7 +650,7 @@ export default function SubscriptionsPage({ trainer }) {
                         display: 'flex',
                         alignItems: 'center',
                         gap: 6,
-                        color: '#6B7B99',
+                        color: 'var(--text-secondary)',
                         fontSize: 12,
                       }}
                     >
@@ -662,7 +662,7 @@ export default function SubscriptionsPage({ trainer }) {
                         display: 'flex',
                         alignItems: 'center',
                         gap: 6,
-                        color: '#6B7B99',
+                        color: 'var(--text-secondary)',
                         fontSize: 12,
                       }}
                     >
@@ -687,7 +687,7 @@ export default function SubscriptionsPage({ trainer }) {
                   {sub.description ? (
                     <p
                       style={{
-                        color: '#6B7B99',
+                        color: 'var(--text-secondary)',
                         fontSize: 12,
                         lineHeight: 1.5,
                         marginBottom: 10,

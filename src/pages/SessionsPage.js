@@ -170,7 +170,7 @@ export default function SessionsPage({ trainer }) {
 
   if (!trainer) {
     return (
-      <p style={{ color: '#6B7B99' }}>Complete your profile first.</p>
+      <p style={{ color: 'var(--text-secondary)' }}>Complete your profile first.</p>
     );
   }
 
@@ -189,7 +189,7 @@ export default function SessionsPage({ trainer }) {
         <div>
           <h1
             style={{
-              color: 'white',
+              color: 'var(--text-primary)',
               fontSize: 24,
               fontWeight: 900,
               margin: 0,
@@ -197,7 +197,7 @@ export default function SessionsPage({ trainer }) {
           >
             My Sessions
           </h1>
-          <p style={{ color: '#6B7B99', marginTop: 4, fontSize: 14 }}>
+          <p style={{ color: 'var(--text-secondary)', marginTop: 4, fontSize: 14 }}>
             Set your session types and pricing
           </p>
         </div>
@@ -208,7 +208,7 @@ export default function SessionsPage({ trainer }) {
           }}
           style={{
             backgroundColor: '#8B5CF6',
-            color: 'white',
+            color: 'var(--text-primary)',
             border: 'none',
             borderRadius: 12,
             padding: '11px 20px',
@@ -228,7 +228,7 @@ export default function SessionsPage({ trainer }) {
       {showForm && (
         <div
           style={{
-            backgroundColor: 'rgba(27,47,107,0.4)',
+            backgroundColor: 'var(--bg-card)',
             borderRadius: 20,
             padding: 24,
             marginBottom: 24,
@@ -245,7 +245,7 @@ export default function SessionsPage({ trainer }) {
           >
             <h2
               style={{
-                color: 'white',
+                color: 'var(--text-primary)',
                 fontSize: 18,
                 fontWeight: 800,
                 margin: 0,
@@ -262,7 +262,7 @@ export default function SessionsPage({ trainer }) {
               style={{
                 background: 'none',
                 border: 'none',
-                color: '#6B7B99',
+                color: 'var(--text-secondary)',
                 fontSize: 20,
                 cursor: 'pointer',
               }}
@@ -398,7 +398,7 @@ export default function SessionsPage({ trainer }) {
                 </select>
                 <div
                   style={{
-                    color: '#6B7B99',
+                    color: 'var(--text-secondary)',
                     fontSize: 11,
                     marginTop: 6,
                   }}
@@ -456,7 +456,7 @@ export default function SessionsPage({ trainer }) {
                   border: '1px solid rgba(255,255,255,0.15)',
                   borderRadius: 10,
                   padding: '11px 20px',
-                  color: '#6B7B99',
+                  color: 'var(--text-secondary)',
                   fontSize: 14,
                   fontWeight: 600,
                   cursor: 'pointer',
@@ -472,7 +472,7 @@ export default function SessionsPage({ trainer }) {
                   border: 'none',
                   borderRadius: 10,
                   padding: '11px 24px',
-                  color: 'white',
+                  color: 'var(--text-primary)',
                   fontSize: 14,
                   fontWeight: 800,
                   cursor: 'pointer',
@@ -491,15 +491,15 @@ export default function SessionsPage({ trainer }) {
       )}
 
       {loading ? (
-        <p style={{ color: '#6B7B99' }}>Loading sessions...</p>
+        <p style={{ color: 'var(--text-secondary)' }}>Loading sessions...</p>
       ) : sessions.length === 0 ? (
         <div
           style={{
             textAlign: 'center',
             padding: 60,
-            backgroundColor: 'rgba(27,47,107,0.3)',
+            backgroundColor: 'var(--bg-card)',
             borderRadius: 20,
-            border: '1px solid rgba(255,255,255,0.06)',
+            border: '1px solid var(--border)',
           }}
         >
           <MdFitnessCenter
@@ -507,17 +507,17 @@ export default function SessionsPage({ trainer }) {
             color="rgba(139,92,246,0.3)"
             style={{ marginBottom: 16 }}
           />
-          <h3 style={{ color: 'white', marginBottom: 8 }}>
+          <h3 style={{ color: 'var(--text-primary)', marginBottom: 8 }}>
             No sessions yet
           </h3>
-          <p style={{ color: '#6B7B99', marginBottom: 24 }}>
+          <p style={{ color: 'var(--text-secondary)', marginBottom: 24 }}>
             Add your first session type to start receiving bookings
           </p>
           <button
             onClick={() => setShowForm(true)}
             style={{
               backgroundColor: '#8B5CF6',
-              color: 'white',
+              color: 'var(--text-primary)',
               border: 'none',
               borderRadius: 12,
               padding: '12px 24px',
@@ -543,7 +543,7 @@ export default function SessionsPage({ trainer }) {
             <div
               key={session.id}
               style={{
-                backgroundColor: 'rgba(27,47,107,0.4)',
+                backgroundColor: 'var(--bg-card)',
                 borderRadius: 16,
                 border: '1px solid rgba(139,92,246,0.2)',
                 overflow: 'hidden',
@@ -565,7 +565,7 @@ export default function SessionsPage({ trainer }) {
                 >
                   <div
                     style={{
-                      color: 'white',
+                      color: 'var(--text-primary)',
                       fontSize: 15,
                       fontWeight: 800,
                     }}
@@ -598,7 +598,7 @@ export default function SessionsPage({ trainer }) {
                 {session.description && (
                   <p
                     style={{
-                      color: '#6B7B99',
+                      color: 'var(--text-secondary)',
                       fontSize: 12,
                       marginTop: 8,
                       lineHeight: 1.5,
@@ -670,7 +670,7 @@ export default function SessionsPage({ trainer }) {
 
 const labelStyle = {
   display: 'block',
-  color: '#6B7B99',
+  color: 'var(--text-secondary)',
   fontSize: 10,
   fontWeight: 700,
   letterSpacing: 1,
@@ -680,11 +680,11 @@ const labelStyle = {
 
 const inputStyle = {
   width: '100%',
-  backgroundColor: 'rgba(255,255,255,0.05)',
-  border: '1px solid rgba(255,255,255,0.1)',
+  backgroundColor: 'var(--bg-input)',
+  border: '1px solid var(--border-input)',
   borderRadius: 10,
   padding: '11px 14px',
-  color: 'white',
+  color: 'var(--text-primary)',
   fontSize: 14,
   outline: 'none',
   boxSizing: 'border-box',

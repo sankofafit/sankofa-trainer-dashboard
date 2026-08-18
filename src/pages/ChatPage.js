@@ -287,7 +287,7 @@ export default function ChatPage({ trainer }) {
       gap: 0,
       borderRadius: 20,
       overflow: 'hidden',
-      border: '1px solid rgba(255,255,255,0.06)',
+      border: '1px solid var(--border)',
     }}>
       <div style={{
         width: 300,
@@ -310,7 +310,7 @@ export default function ChatPage({ trainer }) {
             marginBottom: 12,
           }}>
             <h3 style={{
-              color: 'white', fontSize: 16,
+              color: 'var(--text-primary)', fontSize: 16,
               fontWeight: 800, margin: 0,
             }}>
               Messages
@@ -327,7 +327,7 @@ export default function ChatPage({ trainer }) {
                 padding: '0 6px',
               }}>
                 <span style={{
-                  color: 'white',
+                  color: 'var(--text-primary)',
                   fontSize: 11, fontWeight: 900,
                 }}>
                   {totalUnread}
@@ -359,7 +359,7 @@ export default function ChatPage({ trainer }) {
               style={{
                 background: 'none',
                 border: 'none',
-                color: 'white',
+                color: 'var(--text-primary)',
                 fontSize: 13,
                 outline: 'none',
                 flex: 1,
@@ -374,7 +374,7 @@ export default function ChatPage({ trainer }) {
         }}>
           {loading ? (
             <p style={{
-              color: '#6B7B99',
+              color: 'var(--text-secondary)',
               padding: '20px 16px',
               fontSize: 13,
             }}>
@@ -391,7 +391,7 @@ export default function ChatPage({ trainer }) {
                 style={{ marginBottom: 8 }}
               />
               <p style={{
-                color: '#6B7B99',
+                color: 'var(--text-secondary)',
                 fontSize: 13,
                 lineHeight: 1.5,
               }}>
@@ -481,7 +481,7 @@ export default function ChatPage({ trainer }) {
                           '2px solid #0D1B45',
                       }}>
                         <span style={{
-                          color: 'white',
+                          color: 'var(--text-primary)',
                           fontSize: 9,
                           fontWeight: 900,
                         }}>
@@ -495,7 +495,7 @@ export default function ChatPage({ trainer }) {
                     flex: 1, minWidth: 0,
                   }}>
                     <div style={{
-                      color: 'white',
+                      color: 'var(--text-primary)',
                       fontSize: 14,
                       fontWeight: unread > 0
                         ? 800 : 600,
@@ -506,7 +506,7 @@ export default function ChatPage({ trainer }) {
                       {client.full_name}
                     </div>
                     <div style={{
-                      color: '#6B7B99',
+                      color: 'var(--text-secondary)',
                       fontSize: 11,
                       whiteSpace: 'nowrap',
                       overflow: 'hidden',
@@ -525,7 +525,7 @@ export default function ChatPage({ trainer }) {
 
       <div style={{
         flex: 1,
-        backgroundColor: '#080C1C',
+        backgroundColor: 'var(--bg-main)',
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
@@ -557,14 +557,14 @@ export default function ChatPage({ trainer }) {
             </div>
             <div style={{ textAlign: 'center' }}>
               <p style={{
-                color: 'white',
+                color: 'var(--text-primary)',
                 fontSize: 16, fontWeight: 700,
                 marginBottom: 6,
               }}>
                 Select a client
               </p>
               <p style={{
-                color: '#6B7B99', fontSize: 13,
+                color: 'var(--text-secondary)', fontSize: 13,
               }}>
                 Choose a client from the list
                 to start chatting
@@ -605,7 +605,7 @@ export default function ChatPage({ trainer }) {
               </div>
               <div style={{ flex: 1 }}>
                 <div style={{
-                  color: 'white',
+                  color: 'var(--text-primary)',
                   fontSize: 15, fontWeight: 800,
                 }}>
                   {activeClient.full_name}
@@ -657,7 +657,7 @@ export default function ChatPage({ trainer }) {
                   padding: 40,
                 }}>
                   <p style={{
-                    color: '#6B7B99',
+                    color: 'var(--text-secondary)',
                     fontSize: 14,
                     textAlign: 'center',
                     lineHeight: 1.6,
@@ -723,7 +723,7 @@ export default function ChatPage({ trainer }) {
                             : '1px solid rgba(255,255,255,0.06)',
                         }}>
                           <p style={{
-                            color: 'white',
+                            color: 'var(--text-primary)',
                             fontSize: 14,
                             margin: 0,
                             lineHeight: 1.5,
@@ -741,7 +741,7 @@ export default function ChatPage({ trainer }) {
                           alignItems: 'center',
                         }}>
                           <span style={{
-                            color: '#6B7B99',
+                            color: 'var(--text-secondary)',
                             fontSize: 10,
                           }}>
                             {new Date(msg.created_at)
@@ -798,7 +798,7 @@ export default function ChatPage({ trainer }) {
                     '1px solid rgba(255,255,255,0.1)',
                   borderRadius: 24,
                   padding: '12px 18px',
-                  color: 'white',
+                  color: 'var(--text-primary)',
                   fontSize: 14,
                   outline: 'none',
                   transition: 'border-color 0.2s',
