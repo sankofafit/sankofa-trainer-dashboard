@@ -124,13 +124,9 @@ export default function BookingsPage({ trainer }) {
 
       if (error) throw error;
 
-      const {
-        data: { session: authSession },
-      } = await supabase.auth.getSession();
-
       await logActivity({
-        actorId: authSession?.user?.id,
-        actorEmail: authSession?.user?.email,
+        actorId: trainer?.owner_id,
+        actorEmail: trainer?.email,
         actorName: trainer?.name,
         actorType: 'trainer',
         action: LOG_ACTIONS.BOOKING_COMPLETED,
@@ -139,7 +135,9 @@ export default function BookingsPage({ trainer }) {
         metadata: {
           booking_id: bookingId,
           trainer_id: trainer?.id,
+          trainer_name: trainer?.name,
         },
+        status: 'success',
       });
 
       await loadBookings();

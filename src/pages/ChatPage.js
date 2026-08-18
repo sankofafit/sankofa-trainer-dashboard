@@ -3,6 +3,7 @@ import React, {
   useState, useEffect, useRef,
 } from 'react';
 import { supabase } from '../lib/supabase';
+import { logActivity, LOG_ACTIONS } from '../utils/activityLogger';
 import {
   RiSendPlaneFill,
   RiUserHeartLine,
@@ -246,7 +247,7 @@ export default function ChatPage({ trainer }) {
       const senderId = trainer?.owner_id || authUserIdRef.current;
       if (!senderId || !activeClient?.id) return;
 
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('messages')
         .insert({
           sender_id: senderId,
@@ -255,13 +256,34 @@ export default function ChatPage({ trainer }) {
           content: messageText,
           is_read: false,
           created_at: new Date().toISOString(),
-        });
+        })
+        .select()
+        .single();
 
       if (error) {
         console.log('Send error:', error);
         setNewMessage(messageText);
+        return;
       }
+
+      await logActivity({
+        actorId: trainer?.owner_id,
+        actorEmail: trainer?.email,
+        actorName: trainer?.name,
+        actorType: 'trainer',
+        action: LOG_ACTIONS.MESSAGE_SENT,
+        category: 'message',
+        description: 'Trainer sent message to client',
+        metadata: {
+          trainer_id: trainer?.id,
+          client_id: activeClient?.id,
+          client_name: activeClient?.full_name,
+          message_id: data?.id,
+        },
+        status: 'success',
+      });
     } catch (e) {
+      console.log('handleSend error:', e);
       setNewMessage(messageText);
     } finally {
       setSending(false);

@@ -41,6 +41,7 @@ export const LOG_ACTIONS = {
   BOOKING_CREATED: 'booking.created',
   BOOKING_CANCELLED: 'booking.cancelled',
   BOOKING_COMPLETED: 'booking.completed',
+  MESSAGE_SENT: 'message.sent',
   PAYMENT_SUCCESS: 'payment.success',
   PAYMENT_FAILED: 'payment.failed',
   PAYOUT_SENT: 'payout.sent',

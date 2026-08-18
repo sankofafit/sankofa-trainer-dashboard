@@ -22,7 +22,7 @@ export default function App() {
   const [trainer, setTrainer] = useState(null);
   const { unreadCount } = useUnreadMessages(trainer);
 
-  const loadTrainer = useCallback(async (userId) => {
+  const loadTrainer = useCallback(async (userId, { logLogin = false } = {}) => {
     try {
       const { data, error } = await supabase
         .from('trainers')
@@ -41,6 +41,28 @@ export default function App() {
       }
 
       setTrainer(data);
+
+      if (logLogin) {
+        const {
+          data: { session: authSession },
+        } = await supabase.auth.getSession();
+
+        await logActivity({
+          actorId: userId,
+          actorEmail: authSession?.user?.email,
+          actorName: data.name,
+          actorType: 'trainer',
+          action: LOG_ACTIONS.AUTH_LOGIN,
+          category: 'auth',
+          description: 'Trainer logged in to dashboard',
+          metadata: {
+            trainer_id: data.id,
+            trainer_name: data.name,
+          },
+          status: 'success',
+        });
+      }
+
       return data;
     } catch (e) {
       console.log('loadTrainer error:', e);
@@ -67,19 +89,9 @@ export default function App() {
       setSession(nextSession);
       if (nextSession?.user?.id) {
         setLoading(true);
-        const trainerData = await loadTrainer(nextSession.user.id);
-        if (_event === 'SIGNED_IN' && trainerData) {
-          await logActivity({
-            actorId: nextSession.user.id,
-            actorEmail: nextSession.user.email,
-            actorName: trainerData.name,
-            actorType: 'trainer',
-            action: LOG_ACTIONS.AUTH_LOGIN,
-            category: 'auth',
-            description: 'Trainer logged in',
-            metadata: { trainer_id: trainerData.id },
-          });
-        }
+        await loadTrainer(nextSession.user.id, {
+          logLogin: _event === 'SIGNED_IN',
+        });
       } else {
         setTrainer(null);
         setLoading(false);
