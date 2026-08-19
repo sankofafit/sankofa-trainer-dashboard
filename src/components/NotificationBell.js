@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useNotifications from '../hooks/useNotifications';
-import { RiBellLine, RiCheckDoubleLine } from 'react-icons/ri';
+import { RiBellLine, RiBellFill, RiCheckDoubleLine } from 'react-icons/ri';
 
 export default function NotificationBell({ trainer }) {
   const [open, setOpen] = useState(false);
@@ -47,35 +47,38 @@ export default function NotificationBell({ trainer }) {
       <button
         type="button"
         onClick={() => setOpen(!open)}
+        title="Notifications"
         style={{
           position: 'relative',
-          width: 40,
-          height: 40,
-          borderRadius: 20,
-          backgroundColor: 'rgba(255,255,255,0.06)',
-          border: '1px solid rgba(255,255,255,0.1)',
+          width: 42,
+          height: 42,
+          borderRadius: 21,
+          backgroundColor: open
+            ? 'rgba(139,92,246,0.15)'
+            : 'rgba(255,255,255,0.06)',
+          border: `1px solid ${
+            open ? 'rgba(139,92,246,0.4)' : 'rgba(255,255,255,0.1)'
+          }`,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           cursor: 'pointer',
-          color: unreadCount > 0 ? '#F5C842' : '#6B7B99',
           transition: 'all 0.2s',
           flexShrink: 0,
         }}
       >
-        <RiBellLine
-          size={20}
-          style={{
-            animation: unreadCount > 0 ? 'bellRing 1s ease infinite' : 'none',
-          }}
-        />
+        {unreadCount > 0 ? (
+          <RiBellFill size={20} color="#F5C842" />
+        ) : (
+          <RiBellLine size={20} color="#6B7B99" />
+        )}
 
         {unreadCount > 0 && (
           <div
             style={{
               position: 'absolute',
-              top: -4,
-              right: -4,
+              top: -2,
+              right: -2,
               backgroundColor: '#EF4444',
               borderRadius: 10,
               minWidth: 18,
@@ -85,6 +88,7 @@ export default function NotificationBell({ trainer }) {
               justifyContent: 'center',
               padding: '0 4px',
               border: '2px solid #080C1C',
+              zIndex: 1,
             }}
           >
             <span
