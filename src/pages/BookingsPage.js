@@ -2,6 +2,10 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { logActivity, LOG_ACTIONS } from '../utils/activityLogger';
+import {
+  sendTrainerNotification,
+  checkDuplicateNotification,
+} from '../utils/sendNotification';
 import { formatDate } from '../utils/formatters';
 import {
   RiCalendarEventLine,
@@ -46,6 +50,92 @@ export default function BookingsPage({ trainer }) {
       return () => supabase.removeChannel(sub);
     }
   }, [trainer]);
+
+  useEffect(() => {
+    if (!trainer?.id) return;
+
+    const notifSub = supabase
+      .channel(`trainer_bookings_notif_${trainer.id}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'trainer_bookings',
+          filter: `trainer_id=eq.${trainer.id}`,
+        },
+        async (payload) => {
+          const b = payload.new;
+
+          const isDuplicate = await checkDuplicateNotification(
+            trainer.id,
+            'new_booking',
+          );
+          if (isDuplicate) return;
+
+          let clientName = 'A client';
+          if (b.user_id) {
+            const { data: user } = await supabase
+              .from('users')
+              .select('full_name')
+              .eq('id', b.user_id)
+              .single();
+            clientName = user?.full_name || clientName;
+          }
+
+          await sendTrainerNotification(trainer.id, 'new_booking', {
+            clientName,
+            sessionType: b.session_type,
+            date: b.session_date,
+            time: b.session_time,
+            bookingId: b.id,
+          });
+        },
+      )
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'trainer_bookings',
+          filter: `trainer_id=eq.${trainer.id}`,
+        },
+        async (payload) => {
+          const updated = payload.new;
+          const old = payload.old;
+
+          if (old.status === 'cancelled' || updated.status !== 'cancelled') {
+            return;
+          }
+
+          const isDuplicate = await checkDuplicateNotification(
+            trainer.id,
+            'booking_cancelled',
+          );
+          if (isDuplicate) return;
+
+          let clientName = 'A client';
+          if (updated.user_id) {
+            const { data: user } = await supabase
+              .from('users')
+              .select('full_name')
+              .eq('id', updated.user_id)
+              .single();
+            clientName = user?.full_name || clientName;
+          }
+
+          await sendTrainerNotification(trainer.id, 'booking_cancelled', {
+            clientName,
+            sessionType: updated.session_type,
+            date: updated.session_date,
+            bookingId: updated.id,
+          });
+        },
+      )
+      .subscribe();
+
+    return () => supabase.removeChannel(notifSub);
+  }, [trainer?.id]);
 
   const loadBookings = async () => {
     try {

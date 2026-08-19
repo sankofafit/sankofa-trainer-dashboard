@@ -4,6 +4,10 @@ import React, {
 } from 'react';
 import { supabase } from '../lib/supabase';
 import { logActivity, LOG_ACTIONS } from '../utils/activityLogger';
+import {
+  sendTrainerNotification,
+  checkDuplicateNotification,
+} from '../utils/sendNotification';
 import { useIsMobile } from '../hooks/useIsMobile';
 import {
   RiSendPlaneFill,
@@ -41,6 +45,54 @@ export default function ChatPage({ trainer }) {
   useEffect(() => {
     if (trainer?.id) loadClients();
   }, [trainer]);
+
+  useEffect(() => {
+    if (!trainer?.id || !trainer?.owner_id) return;
+
+    const msgNotifSub = supabase
+      .channel(`trainer_chat_notif_${trainer.owner_id}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'messages',
+          filter: `receiver_id=eq.${trainer.owner_id}`,
+        },
+        async (payload) => {
+          const msg = payload.new;
+
+          if (String(msg.sender_id) === String(trainer.owner_id)) {
+            return;
+          }
+
+          const isDuplicate = await checkDuplicateNotification(
+            trainer.id,
+            'new_message',
+          );
+          if (isDuplicate) return;
+
+          let senderName = 'A client';
+          if (msg.sender_id) {
+            const { data: user } = await supabase
+              .from('users')
+              .select('full_name')
+              .eq('id', msg.sender_id)
+              .single();
+            senderName = user?.full_name || senderName;
+          }
+
+          await sendTrainerNotification(trainer.id, 'new_message', {
+            clientName: senderName,
+            content: msg.content,
+            messageId: msg.id,
+          });
+        },
+      )
+      .subscribe();
+
+    return () => supabase.removeChannel(msgNotifSub);
+  }, [trainer?.id, trainer?.owner_id]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({

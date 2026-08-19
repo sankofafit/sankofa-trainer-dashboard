@@ -1,5 +1,19 @@
 import { supabase } from '../lib/supabase';
 
+export const checkDuplicateNotification = async (trainerId, type) => {
+  const fiveSecsAgo = new Date(Date.now() - 5000).toISOString();
+
+  const { data } = await supabase
+    .from('trainer_notifications')
+    .select('id')
+    .eq('trainer_id', trainerId)
+    .eq('type', type)
+    .gte('created_at', fiveSecsAgo)
+    .limit(1);
+
+  return data && data.length > 0;
+};
+
 export const sendTrainerNotification = async (trainerId, type, data = {}) => {
   const templates = {
     new_booking: {
