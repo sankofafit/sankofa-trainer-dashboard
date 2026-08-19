@@ -5,11 +5,20 @@ import { RiBellLine, RiBellFill, RiCheckDoubleLine } from 'react-icons/ri';
 
 export default function NotificationBell({ trainer }) {
   const [open, setOpen] = useState(false);
+  const [isWide, setIsWide] = useState(
+    () => typeof window !== 'undefined' && window.innerWidth > 480,
+  );
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
 
   const { notifications, unreadCount, markAllRead, markOneRead } =
     useNotifications(trainer);
+
+  useEffect(() => {
+    const onResize = () => setIsWide(window.innerWidth > 480);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
 
   useEffect(() => {
     const handleClick = (e) => {
@@ -108,17 +117,17 @@ export default function NotificationBell({ trainer }) {
       {open && (
         <div
           style={{
-            position: 'absolute',
-            top: 48,
-            right: 0,
-            width: 360,
-            maxWidth: 'calc(100vw - 24px)',
-            maxHeight: 480,
+            position: 'fixed',
+            top: 64,
+            right: isWide ? 16 : 8,
+            left: isWide ? 'auto' : 8,
+            width: isWide ? 360 : 'calc(100vw - 16px)',
+            maxHeight: 'calc(100vh - 80px)',
             backgroundColor: '#0D1B45',
             borderRadius: 16,
             border: '1px solid rgba(255,255,255,0.1)',
-            boxShadow: '0 16px 48px rgba(0,0,0,0.4)',
-            zIndex: 1000,
+            boxShadow: '0 16px 48px rgba(0,0,0,0.5)',
+            zIndex: 9999,
             overflow: 'hidden',
             display: 'flex',
             flexDirection: 'column',
@@ -132,14 +141,24 @@ export default function NotificationBell({ trainer }) {
               justifyContent: 'space-between',
               alignItems: 'center',
               flexShrink: 0,
+              width: '100%',
+              boxSizing: 'border-box',
             }}
           >
-            <div>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 8,
+                minWidth: 0,
+              }}
+            >
               <span
                 style={{
                   color: 'white',
                   fontSize: 15,
                   fontWeight: 800,
+                  whiteSpace: 'nowrap',
                 }}
               >
                 Notifications
@@ -153,7 +172,8 @@ export default function NotificationBell({ trainer }) {
                     fontWeight: 700,
                     borderRadius: 10,
                     padding: '2px 8px',
-                    marginLeft: 8,
+                    whiteSpace: 'nowrap',
+                    flexShrink: 0,
                   }}
                 >
                   {unreadCount} new
@@ -174,6 +194,9 @@ export default function NotificationBell({ trainer }) {
                   fontSize: 12,
                   fontWeight: 700,
                   cursor: 'pointer',
+                  whiteSpace: 'nowrap',
+                  flexShrink: 0,
+                  marginLeft: 8,
                 }}
               >
                 <RiCheckDoubleLine size={14} />
@@ -187,6 +210,7 @@ export default function NotificationBell({ trainer }) {
               overflowY: 'auto',
               flex: 1,
               WebkitOverflowScrolling: 'touch',
+              overscrollBehavior: 'contain',
             }}
           >
             {notifications.length === 0 ? (
@@ -219,8 +243,10 @@ export default function NotificationBell({ trainer }) {
                       : 'rgba(139,92,246,0.08)',
                     transition: 'background 0.15s',
                     display: 'flex',
-                    gap: 12,
+                    gap: 10,
                     alignItems: 'flex-start',
+                    width: '100%',
+                    boxSizing: 'border-box',
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.04)';
@@ -238,11 +264,17 @@ export default function NotificationBell({ trainer }) {
                       borderRadius: 4,
                       backgroundColor: notif.is_read ? 'transparent' : '#8B5CF6',
                       flexShrink: 0,
-                      marginTop: 6,
+                      marginTop: 5,
                     }}
                   />
 
-                  <div style={{ flex: 1, minWidth: 0 }}>
+                  <div
+                    style={{
+                      flex: 1,
+                      minWidth: 0,
+                      overflow: 'hidden',
+                    }}
+                  >
                     <div
                       style={{
                         color: 'white',
@@ -250,6 +282,9 @@ export default function NotificationBell({ trainer }) {
                         fontWeight: notif.is_read ? 500 : 700,
                         marginBottom: 3,
                         lineHeight: 1.4,
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
                       }}
                     >
                       {notif.title}
@@ -260,6 +295,7 @@ export default function NotificationBell({ trainer }) {
                         fontSize: 12,
                         lineHeight: 1.5,
                         marginBottom: 4,
+                        wordBreak: 'break-word',
                       }}
                     >
                       {notif.body}
