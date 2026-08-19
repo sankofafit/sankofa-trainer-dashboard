@@ -10,6 +10,7 @@ import {
   RiMoonLine,
 } from 'react-icons/ri';
 import useTheme from '../hooks/useTheme';
+import NotificationBell from './NotificationBell';
 
 export default function Header({ trainer, session, onMenuToggle, isMobile }) {
   const { theme, toggleTheme } = useTheme();
@@ -160,6 +161,8 @@ export default function Header({ trainer, session, onMenuToggle, isMobile }) {
               {isMobile ? 'Install' : 'Install App'}
             </button>
           )}
+
+          <NotificationBell trainer={trainer} />
 
           <button
             type="button"

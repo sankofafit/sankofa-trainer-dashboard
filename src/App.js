@@ -5,8 +5,8 @@ import { logActivity, LOG_ACTIONS } from './utils/activityLogger';
 import {
   registerSW,
   requestNotificationPermission,
-  showTrainerNotification,
 } from './utils/pwa';
+import { sendTrainerNotification } from './utils/sendNotification';
 import Layout from './components/Layout';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
@@ -139,7 +139,7 @@ export default function App() {
             clientName = user?.full_name || clientName;
           }
 
-          await showTrainerNotification('new_booking', {
+          await sendTrainerNotification(trainer.id, 'new_booking', {
             clientName,
             sessionType: b.session_type,
             date: b.session_date,
@@ -173,7 +173,7 @@ export default function App() {
             senderName = user?.full_name || senderName;
           }
 
-          await showTrainerNotification('new_message', {
+          await sendTrainerNotification(trainer.id, 'new_message', {
             clientName: senderName,
             content: msg.content,
           });
@@ -198,21 +198,17 @@ export default function App() {
           console.log('Trainer updated:', updated);
 
           if (!old.is_approved && updated.is_approved) {
-            await showTrainerNotification('approved', {});
+            await sendTrainerNotification(trainer.id, 'approved', {});
           }
 
-          if (
-            old.is_approved &&
-            !updated.is_approved &&
-            updated.rejection_reason
-          ) {
-            await showTrainerNotification('rejected', {
+          if (old.is_approved && !updated.is_approved) {
+            await sendTrainerNotification(trainer.id, 'rejected', {
               reason: updated.rejection_reason,
             });
           }
 
           if (old.is_active && !updated.is_active) {
-            await showTrainerNotification('suspended', {});
+            await sendTrainerNotification(trainer.id, 'suspended', {});
           }
         },
       )
@@ -232,10 +228,10 @@ export default function App() {
           const review = payload.new;
           console.log('⭐ New review:', review);
 
-          await showTrainerNotification('new_review', {
+          await sendTrainerNotification(trainer.id, 'new_review', {
             clientName: review.user_name,
             rating: review.rating,
-            review: review.review?.slice(0, 50),
+            review: review.review,
           });
         },
       )
@@ -268,7 +264,7 @@ export default function App() {
               clientName = user?.full_name || clientName;
             }
 
-            await showTrainerNotification('booking_cancelled', {
+            await sendTrainerNotification(trainer.id, 'booking_cancelled', {
               clientName,
               sessionType: updated.session_type,
               date: updated.session_date,
@@ -292,7 +288,7 @@ export default function App() {
           const payout = payload.new;
           console.log('💰 Payout sent:', payout);
 
-          await showTrainerNotification('payout_sent', {
+          await sendTrainerNotification(trainer.id, 'payout_sent', {
             amount: payout.amount_ghs,
             momoNumber: trainer.momo_number,
           });

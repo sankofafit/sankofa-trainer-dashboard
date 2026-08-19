@@ -57,6 +57,19 @@ select {
   }
 }
 
+@keyframes bellRing {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  25% {
+    transform: rotate(10deg);
+  }
+  75% {
+    transform: rotate(-10deg);
+  }
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);
